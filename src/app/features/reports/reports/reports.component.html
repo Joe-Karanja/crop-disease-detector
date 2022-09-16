@@ -1,0 +1,102 @@
+<div class="container" fxLayout="row" fxLayoutAlign="center none">
+  <div fxFlex="95%">
+
+
+    <mat-card>
+      <mat-card-content>
+        <h2>Analysis Reports</h2>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="30%" style="float: left;">
+            <input matInput type="text" placeholder="Filter">
+          </mat-form-field>
+          <div style="margin-right: 20px">
+            <button mat-raised-button (click)="exporter.exportTable('txt')"
+                    style="margin-right: 20px">Pdf</button>
+            <button mat-raised-button (click)="exporter.exportTable('xlsx', {fileName:'test', sheet: 'sheet_name', Props: {Author: 'Talha'}})"
+                    style="margin-right: 20px">Excel</button>
+            <button mat-raised-button (click)="exporter.exportTable('csv')"
+                    style="margin-right: 20px">Csv</button>
+            <button mat-raised-button (click)="exporter.exportTable('json')"
+                    style="margin-right: 20px">Json</button>
+            <button mat-raised-button (click)="exporter.exportTable('txt')"
+                    style="margin-right: 20px">Txt</button>
+          </div>
+        </div>
+
+        <table mat-table matTableExporter [dataSource]="dataSource" matSort
+               #exporter="matTableExporter">
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+          </ng-container>
+
+          <!-- Crop-Image Column -->
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <!-- Crop-Image Column -->
+          <ng-container matColumnDef="image">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <!-- Crop Column -->
+          <ng-container matColumnDef="crop">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Crop </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="disease">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Disease </th>
+            <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="symptoms">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Symtoms</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="material-icons" style="color: blue" (click)="openDialog()">visibility</span> </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="treatment">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> treatment</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="material-icons" style="color: blue" (click)="openDialog()">visibility</span> </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="prevention">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> prevention</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="material-icons" style="color: blue" (click)="openDialog()">visibility</span> </td>
+          </ng-container>
+
+          <!-- Delete Column -->
+          <ng-container matColumnDef="actions" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td mat-cell *matCellDef="let element">
+              <span class="material-icons" style="padding-right: 5px" (click)="$event">edit</span>
+              <span class="material-icons" style="color: red" (click)="$event">delete</span>
+            </td>
+          </ng-container>
+
+
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<!--&lt;!&ndash; Main Wrapper &ndash;&gt;-->
+<!--    <div class="main-wrapper">-->
+
+<!--        <div class="error-box">-->
+<!--            <h1>500</h1>-->
+<!--            <h3><i class="fa fa-warning"></i> Oops! Something went wrong</h3>-->
+<!--            <p>Unable to make a prediction, Please upload a clearer Image</p>-->
+<!--            <a routerLink="/analysis" class="btn btn-custom">Back to Home</a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--&lt;!&ndash; /Main Wrapper &ndash;&gt;-->
+
+<!-- Main Wrapper -->
+<div class="container" fxLayout="row" fxLayoutAlign="center none">
+    <div fxFlex="95%">
+        <div class="main-wrapper">
+            <div class="error-box" style="text-align: center">
+                <h1>500</h1>
+                <h3><i class="fa fa-warning"></i> Oops! Page not found!</h3>
+            </div>
+            <a routerLink="/analysis" class="btn btn-custom" style="color: #3f51b5">
+                <mat-icon>keyboard_arrow_left</mat-icon><mat-icon>keyboard_arrow_left</mat-icon></a>
+            <div>
+                <div class="alert alert-info" style="margin-top: 20px;text-align: center">
+                    <strong style="color: black;"><p>Info!<br>Unable to make a prediction, Please upload a clearer Image</p></strong>
+                </div>
+            </div>
+            <!--            <button mat-raised-button color="primary" style="background-color: #3f51b5;border-radius: 5px">-->
+            <!--                <a routerLink="/analysis" class="btn btn-custom" style="color: #FFFFFF">Return</a>-->
+            <!--            </button>-->
+            <a routerLink="/analysis" class="btn btn-custom" style="color: #3f51b5">
+                <mat-icon>keyboard_arrow_left</mat-icon><mat-icon>keyboard_arrow_left</mat-icon>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- /Main Wrapper -->

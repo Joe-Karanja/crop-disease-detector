@@ -1,0 +1,256 @@
+<div class="container" fxLayout="row" fxLayoutAlign="center none">
+    <div fxFlex="95%">
+        <div class="card-wrapper" style="margin-top: 5px">
+            <div *ngIf="!isSpinning && !isDormant">
+                <a href="./analysis" class="btn btn-custom" style="color: #3f51b5">
+                    <mat-icon>keyboard_arrow_left</mat-icon><mat-icon>keyboard_arrow_left</mat-icon></a>
+            </div>
+            <mat-card class="example-card" >
+                <mat-card-header>
+                    <mat-card-title></mat-card-title>
+                    <mat-card-subtitle>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <form>
+                        <input type="file" id="img" maxFileSize="50000" accept=".jpg,.png," (change)="onSelect($event)">
+                    </form>
+                    <button mat-raised-button color="primary" style="float: right;margin-top: -30px;margin-right: 50px"
+                            (click)="analyzeImage()">Submit Image</button>
+                </mat-card-content>
+                <mat-card-actions>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+
+        <ng-container *ngIf="!isSpinning && !isDormant">
+            <!--    Analysis details-->
+            <div class="card-wrapper" style="margin-top: 10px">
+                <mat-card class="custom">
+                    <mat-card-content>
+                        <div fxLayout="row" fxLayoutAlign="space-between">
+                            <div fxLayout="column" fxFlex="0 0 47%" style="margin-left: 40px">
+                                <form>
+                                    <img [src]="url" style="border-radius: 1rem 1rem 1rem 1rem; width: 380px;height:280px" alt=""/>
+                                </form>
+                            </div>
+                            <div fxLayout="column" fxFlex="0 40 55%">
+                                <form>
+                                    <img [src]="'data:image/jpeg;base64,' + Image" style="border-radius: 1rem 1rem 1rem 1rem; width: 380px;height:280px" alt=""/>
+                                </form>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <br>
+                    <div class="card-wrapper">
+                        <div>
+                            <mat-list>
+                                <h1 style="font-weight: bolder;font-size: large">Symptoms</h1> <br>
+                                <mat-list-item *ngFor="let item of Symptoms">
+                                        {{item}}
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                        <br>
+                        <div>
+                            <mat-list>
+                                <h1 style="font-weight: bolder;font-size: large">Treatment</h1> <br><br>
+                                <mat-list-item *ngFor="let item of Treatment">
+                                        {{item}}
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </ng-container>
+    </div>
+</div>
+
+<div class="lds-spinner" *ngIf="isSpinning">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <p style="margin-top: 80px; text-align: center;font-weight: bold">Analysing</p>
+</div>
+<div *ngIf="errorMessage" class="alert alert-warning" style="margin-top: 20px;text-align: center">
+    <strong style="color: red;">  <p style=" margin-right: 200px">Warning!<br>The Server is currently down or Unavailable</p></strong>
+</div>
+
+<div style="text-align: center;margin-right: 180px; margin-top: 50px">
+    <mat-icon *ngIf="alert" color="white">info</mat-icon><br>
+    <p>{{alert}}</p>
+</div>
+
+
+<div *ngIf="isDormant" class="container" fxLayout="row" fxLayoutAlign="center none">
+    <div class="container" fxLayout="row" fxLayoutAlign="center none">
+        <div fxFlex="95%">
+            <div class="grid grid-cols-4 gap-4" style="margin-bottom: 20px;margin-top:-60px;text-align: center;">
+                <div>
+                    <mat-card style="background-color: #0040ff;margin-left: 10px;color: #fff;flex-direction: column;box-sizing: border-box;display: flex;max-width: 100%; place-content: center;align-items: center;">
+                        <h3 style="padding-top: 0px;font-size: 15px">Completed Analysis</h3>
+                        <h3 style="font-size: 15px;padding-bottom: 7px;padding-top: 7px;">
+                            {{total}}
+                        </h3>
+                        <span style="color: red;font-size: 15px;font-family: 'Noto Sans'" class="text-dark mr-2">On</span>
+                        <span style="font-size: 17px">{{lastdate}}</span>
+                    </mat-card>
+                </div>
+                <div>
+                    <mat-card style="background-color: rgb(0, 107, 161);margin-left: 10px;color: #fff;flex-direction: column;box-sizing: border-box;display: flex;max-width: 100%; place-content: center;align-items: center;">
+                        <h3 style="padding-top: 0px;font-size: 15px">Crops Supported</h3>
+                        <h3 style="font-size: 15px;padding-bottom: 7px;padding-top: 7px;">
+                            ----
+                        </h3>
+                        <span style="color: red;font-size: 15px;font-family: 'Noto Sans'" class="text-dark mr-2">On</span>
+                        <span style="font-size: 15px">{{lastdate}}</span>
+                    </mat-card>
+                </div>
+
+                <div>
+                    <mat-card style="    background-color: rgb(0, 90, 135);margin-left: 10px;color: #fff;flex-direction: column;box-sizing: border-box;display: flex;max-width: 100%; place-content: center;align-items: center;">
+                        <h3 style="padding-top: 0px;font-size: 15px">Diseases Detected</h3>
+                        <h3 style="font-size: 15px;padding-bottom: 7px;padding-top: 7px;">
+                            64
+                        </h3>
+                        <span style="color: red;font-size: 15px;font-family: 'Noto Sans'" class="text-dark mr-2">On</span>
+                        <span style="font-size: 15px">{{lastdate}}</span>
+
+                    </mat-card>
+                </div>
+                <div>
+                    <mat-card style="background-color: rgb(0, 124, 186);margin-left: 10px;color: #fff;flex-direction: column;box-sizing: border-box;display: flex;max-width: 100%; place-content: center;align-items: center;">
+                        <h3 style="padding-top: 0px;font-size: 15px">Shared Reports</h3>
+                        <h3 style="font-size: 15px;padding-bottom: 7px;padding-top: 7px;">
+                            14
+                        </h3>
+                        <span style="color: red;font-size: 15px;font-family: 'Noto Sans'" class="text-dark mr-2">On</span>
+                        <span style="font-size: 15px">{{lastdate}}</span>
+                    </mat-card>
+                </div>
+            </div>
+            <mat-card style="height: 30em;margin-bottom: 20px">
+                <ngx-charts-bar-vertical
+                        [view]="[1050,400]"
+                        [results]="analysisData"
+                        [xAxisLabel]="'Year   2022'"
+                        [legendTitle]="'Disease Analysis Chart'"
+                        [yAxisLabel]="'Completed Analysis'"
+                        [legend]="true"
+                        [showXAxisLabel]="true"
+                        [showYAxisLabel]="true"
+                        [xAxis]="true"
+                        [yAxis]="true"
+                        [gradient]="true">
+                </ngx-charts-bar-vertical>
+
+            </mat-card>
+            <mat-card>
+                <h2>Analysis Report</h2>
+                <hr style="font-weight: bolder;margin-top: 10px;margin-left: -15px;width: 75.8em;margin-bottom: 10px">
+                <mat-card-content>
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <mat-form-field fxFlex="30%" style="float: left;">
+                            <input matInput type="text" placeholder="Filter" search (keyup)="applyFilter($event)" #input>
+                        </mat-form-field>
+                        <div style="margin-right: 20px">
+                            <button mat-raised-button (click)="downloadPdf()" style="margin-right: 20px">Pdf</button>
+                            <button mat-raised-button (click)="exporter.exportTable('xlsx', {fileName:'test', sheet: 'sheet_name', Props: {Author: 'Talha'}})"
+                                    style="margin-right: 20px">Excel</button>
+                            <button mat-raised-button (click)="exporter.exportTable('csv')"
+                                    style="margin-right: 20px">Csv</button>
+                            <button mat-raised-button (click)="exporter.exportTable('json')"
+                                    style="margin-right: 20px">Json</button>
+                            <button mat-raised-button (click)="exporter.exportTable('txt')"
+                                    style="margin-right: 20px">Txt</button>
+                        </div>
+                    </div>
+                    <table mat-table matTableExporter  matSort [dataSource]="dataSource"
+                           #exporter="matTableExporter">
+
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="Date">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                            <td mat-cell *matCellDef="let element" style="width: 8em;padding-right: 1em;">
+                                {{element.Date}} <br><br>{{element.Time}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Crop-Image Column -->
+                        <ng-container matColumnDef="Image">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
+                            <td mat-cell *matCellDef="let element" style="width: 10em;padding-right: 1em;">
+                                <img src="{{'data:image/jpg;base64,' + element.Image}}"  style="width: 10em; height: 8em" />
+<!--                                <div #rr *ngIf="samesizeoption" class="fullWidth">-->
+<!--                                    <ngx-image-display [sameSize]="samesizeConfig" [imageEffect]="hovereffect" src="{{'data:image/jpg;base64,' + element.Image}}"  [displayconfig]="displayconfig" (onImageSelected)="logImage($event)"></ngx-image-display>-->
+<!--                                </div>-->
+<!--                                <div #rr *ngIf="!samesizeoption" class="fullWidth">-->
+<!--                                    <ngx-image-display src="{{'data:image/jpg;base64,' + element.Image}}" [imageEffect]="hovereffect" [displayconfig]="displayconfig" (onImageSelected)="logImage($event)"></ngx-image-display>-->
+<!--                                </div>-->
+                            </td>
+                        </ng-container>
+
+                        <!-- Disease Column -->
+                        <ng-container matColumnDef="Disease">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Disease </th>
+                            <td mat-cell *matCellDef="let element" style="width: 10em;padding-right: 1em;">
+                                {{element.Disease}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Symptoms">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Symptoms </th>
+                            <td mat-cell *matCellDef="let element" style="padding-bottom: 1em;padding-top: 1em">
+                                {{element.Symptoms}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Treatment">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding-left: 1em"> Treatment </th>
+                            <td mat-cell *matCellDef="let element" style="padding-left: 1em;padding-bottom: 1em;padding-top: 1em">
+                                {{element.Measure}}
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <!--                        SHOWS WHEN DATA IS LOADING-->
+                        <tr *matNoDataRow style="text-align: center; height: 10em">
+                            <td class="mat-cell" colspan="5" style="color: #c7c7c7;font-size: 20px">
+                                No Data <br> Data Loading
+                                <mat-icon style="color: #c7c7c7"> table_chart</mat-icon>
+                            </td>
+                        </tr>
+                        <!--                        SHOWS WHEN DATA DOES NOT EXIST-->
+                        <tr *matNoDataRow style="text-align: center; height: 10em">
+                            <td class="mat-cell" colspan="6" style="color: #c7c7c7;font-size: 20px">
+                                The filter does not match any item in the data for this text <br> {{input.value}} <br>
+                                <mat-icon style="color: #c7c7c7"> table_chart</mat-icon>
+                            </td>
+                        </tr>
+                    </table>
+                    <mat-paginator
+                            style="font-size: 15px;font-family: 'Nunito', sans-serif;"
+                            [pageSizeOptions]="[5,10, 25, 50, 100]" showFirstLastButtons>
+                    </mat-paginator>
+                </mat-card-content>
+            </mat-card>
+        </div><!-- Modal -->
+    </div>
+
+</div>
+
+
+
+
